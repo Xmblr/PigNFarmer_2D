@@ -2946,6 +2946,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetPoints: {fileID: 618084136}
+  detectSwipeOnlyAfterRelease: 1
+  SWIPE_THRESHOLD: 1
 --- !u!1 &1320275836
 GameObject:
   m_ObjectHideFlags: 0

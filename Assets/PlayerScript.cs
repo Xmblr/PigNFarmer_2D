@@ -7,10 +7,7 @@ public class PlayerScript : MonoBehaviour
     private MoveScript MoveScript;
 
     public GameObject Player;
-    //public GameObject TargetPoints;
-    //private GameObject[,] arrayOfPoints = new GameObject[5, 9];
-    //private int CurrentI;
-    //private int CurrentJ;
+
 
     private void Awake()
     {
@@ -20,25 +17,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-
-        // move to strat point
-        //Player.transform.position = TargetPoints.transform.GetChild(0).position;
-        //CurrentI = 2;
-        //CurrentJ = -1;
-
-        // set multidimensional array of points
-        //int k = 1;
-        //for (int i = 0; i < 5; i++)
-        //{
-        //    for (int j = 0; j < 9; j++)
-        //    {
-        //        arrayOfPoints[i, j] = TargetPoints.transform.GetChild(k).gameObject;
-        //        k++;
-        //    }
-        //}
-
-
+       
 
     }
 
@@ -50,43 +29,7 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    //Vector3 Movement()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.UpArrow))
-    //    {
-    //        if (CurrentI > 0)
-    //        {
-    //            CurrentI--;
-    //        }
-    //    }
 
-    //    if (Input.GetKeyDown(KeyCode.DownArrow))
-    //    {
-    //        if (CurrentI < 4)
-    //        {
-    //            CurrentI++;
-    //        }
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.LeftArrow))
-    //    {
-    //        if (CurrentJ > 0)
-    //        {
-    //            CurrentJ--;
-    //        }
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.RightArrow))
-    //    {
-    //        if (CurrentJ < 8)
-    //        {
-    //            CurrentJ++;
-    //        }
-    //    }
-
-    //    return arrayOfPoints[CurrentI, CurrentJ].transform.position;
-
-    //}
 }
 
 
