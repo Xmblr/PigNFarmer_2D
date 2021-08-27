@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class MoveScript : MonoBehaviour
 {
-    
+    private int rnd;
+
+    public GameObject Person;
+
     public GameObject TargetPoints;
     private GameObject[,] arrayOfPoints = new GameObject[5, 9];
     private int CurrentI;
@@ -12,17 +15,26 @@ public class MoveScript : MonoBehaviour
 
     private Vector2 fingerDown;
     private Vector2 fingerUp;
-    public bool detectSwipeOnlyAfterRelease = true;
+    private bool detectSwipeOnlyAfterRelease = true;
 
-    public float SWIPE_THRESHOLD = 1f;
+    private float SWIPE_THRESHOLD = 1f;
 
 
     private void Awake()
     {
-        //move Player to strat point
-        //Player.transform.position = TargetPoints.transform.GetChild(0).position;
-        //CurrentI = 2;
-        //CurrentJ = -1;
+        //move Person to strat point
+        if (Person.name == "Player")
+        {
+            Person.transform.position = TargetPoints.transform.GetChild(0).position;
+            CurrentI = 2;
+            CurrentJ = -1;
+        }
+        else
+        {
+            CurrentI = 4;
+            CurrentJ = 8;
+        }
+
 
         // set multidimensional array of points
         int k = 1;
@@ -36,8 +48,14 @@ public class MoveScript : MonoBehaviour
         }
     }
 
-    public Vector3 Movement()
+    public Vector3 Movement(bool _bot)
     {
+        if (_bot == true)
+        {
+            
+            rnd = (int)Random.Range(1, 700);
+        }
+
 
         foreach (Touch touch in Input.touches)
         {
@@ -66,7 +84,7 @@ public class MoveScript : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) || rnd == 1)
         {
             if (CurrentI > 0)
             {
@@ -74,7 +92,7 @@ public class MoveScript : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || rnd == 2)
         {
             if (CurrentI < 4)
             {
@@ -82,7 +100,7 @@ public class MoveScript : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || rnd == 3)
         {
             if (CurrentJ > 0)
             {
@@ -90,7 +108,7 @@ public class MoveScript : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || rnd == 4)
         {
             if (CurrentJ < 8)
             {
@@ -150,5 +168,6 @@ public class MoveScript : MonoBehaviour
     {
         return Mathf.Abs(fingerDown.x - fingerUp.x);
     }
+
 
 }
