@@ -2,61 +2,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveScript : MonoBehaviour
+public class MovementScript : MonoBehaviour
 {
-    private int rnd;
-
-    public GameObject Person;
-
     public GameObject TargetPoints;
+    public Sprite spriteU;
+    public Sprite spriteD;
+    public Sprite spriteL;
+    public Sprite spriteR;
+
     private GameObject[,] arrayOfPoints = new GameObject[5, 9];
     private int CurrentI;
     private int CurrentJ;
 
     private Vector2 fingerDown;
     private Vector2 fingerUp;
-    private bool detectSwipeOnlyAfterRelease = true;
-
-    private float SWIPE_THRESHOLD = 1f;
+    private float SWIPE_THRESHOLD = 20f;
 
 
-    private void Awake()
+    // Start is called before the first frame update
+    void Start()
     {
-        //move Person to strat point
-        if (Person.name == "Player")
-        {
-            Person.transform.position = TargetPoints.transform.GetChild(0).position;
-            CurrentI = 2;
-            CurrentJ = -1;
-        }
-        else
-        {
-            CurrentI = 4;
-            CurrentJ = 8;
-        }
 
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void StartPosition(int indexStartPoint)
+    {
 
         // set multidimensional array of points
-        int k = 1;
+        int counter = 1;
         for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < 9; j++)
             {
-                arrayOfPoints[i, j] = TargetPoints.transform.GetChild(k).gameObject;
-                k++;
+                arrayOfPoints[i, j] = TargetPoints.transform.GetChild(counter).gameObject;
+                if (indexStartPoint == counter)
+                {
+                    // move to strat point
+                    transform.position = TargetPoints.transform.GetChild(counter).position;
+                    CurrentI = i;
+                    CurrentJ = j;
+                }
+
+                // move to strat point
+
+                if (indexStartPoint == 0)
+                {
+                    transform.position = TargetPoints.transform.GetChild(indexStartPoint).position;
+                    CurrentI = 2;
+                    CurrentJ = -1;
+                }
+                counter++;
             }
         }
     }
 
-    public Vector3 Movement(bool _bot)
+    public Vector3 Movement(int direction)
     {
-        if (_bot == true)
-        {
-            
-            rnd = (int)Random.Range(1, 700);
-        }
-
-
+        // if touchscreen
         foreach (Touch touch in Input.touches)
         {
             if (touch.phase == TouchPhase.Began)
@@ -65,62 +73,46 @@ public class MoveScript : MonoBehaviour
                 fingerDown = touch.position;
             }
 
-            //Detects Swipe while finger is still moving
-            if (touch.phase == TouchPhase.Moved)
-            {
-                if (!detectSwipeOnlyAfterRelease)
-                {
-                    fingerDown = touch.position;
-                    checkSwipe();
-                }
-            }
-
             //Detects swipe after finger is released
             if (touch.phase == TouchPhase.Ended)
             {
                 fingerDown = touch.position;
-                checkSwipe();
+                direction = checkSwipe();
             }
         }
 
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) || rnd == 1)
+        // if keyboard
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || direction == 1) && CurrentI > 0)
         {
-            if (CurrentI > 0)
-            {
-                CurrentI--;
-            }
+            CurrentI--;
+            GetComponent<SpriteRenderer>().sprite = spriteU;
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) || rnd == 2)
+        if ((Input.GetKeyDown(KeyCode.DownArrow) || direction == 2) && CurrentI < 4)
         {
-            if (CurrentI < 4)
-            {
-                CurrentI++;
-            }
+            CurrentI++;
+            GetComponent<SpriteRenderer>().sprite = spriteD;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || rnd == 3)
+        if ((Input.GetKeyDown(KeyCode.LeftArrow) || direction == 3) && CurrentJ > 0)
         {
-            if (CurrentJ > 0)
-            {
-                CurrentJ--;
-            }
+            CurrentJ--;
+            GetComponent<SpriteRenderer>().sprite = spriteL;
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) || rnd == 4)
+        if ((Input.GetKeyDown(KeyCode.RightArrow) || direction == 4) && CurrentJ < 8)
         {
-            if (CurrentJ < 8)
-            {
-                CurrentJ++;
-            }
+            CurrentJ++;
+            GetComponent<SpriteRenderer>().sprite = spriteR;
         }
+
 
         return arrayOfPoints[CurrentI, CurrentJ].transform.position;
 
     }
 
-    void checkSwipe()
+    int checkSwipe()
     {
         //Check if Vertical swipe
         if (verticalMove() > SWIPE_THRESHOLD && verticalMove() > horizontalValMove())
@@ -128,11 +120,11 @@ public class MoveScript : MonoBehaviour
             //Debug.Log("Vertical");
             if (fingerDown.y - fingerUp.y > 0)//up swipe
             {
-                CurrentI--;
+                return 1;
             }
             else if (fingerDown.y - fingerUp.y < 0)//Down swipe
             {
-                CurrentI++;
+                return 2;
             }
             fingerUp = fingerDown;
         }
@@ -143,11 +135,11 @@ public class MoveScript : MonoBehaviour
             //Debug.Log("Horizontal");
             if (fingerDown.x - fingerUp.x > 0)//Right swipe
             {
-                CurrentJ++;
+                return 4;
             }
             else if (fingerDown.x - fingerUp.x < 0)//Left swipe
             {
-                CurrentJ--;
+                return 3;
             }
             fingerUp = fingerDown;
         }
@@ -155,8 +147,11 @@ public class MoveScript : MonoBehaviour
         //No Movement at-all
         else
         {
+
             //Debug.Log("No Swipe!");
         }
+
+        return 0;
     }
 
     float verticalMove()
@@ -168,6 +163,4 @@ public class MoveScript : MonoBehaviour
     {
         return Mathf.Abs(fingerDown.x - fingerUp.x);
     }
-
-
 }

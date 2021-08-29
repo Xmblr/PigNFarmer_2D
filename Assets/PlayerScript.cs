@@ -1,105 +1,63 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
-    public GameObject Player;
-    public GameObject TargetPoints;
-<<<<<<< HEAD
-    public GameObject[] Arr;
-=======
-    private GameObject[,] arrayOfPoints = new GameObject[5, 9];
-    private int CurrentI;
-    private int CurrentJ;
+    private MovementScript movementScript;
+    private HealthScript healthScript;
+    public Image HearthImage;
+
+    public int speed;
+
+    //private int countOfHealt = 3;
 
 
->>>>>>> parent of 39223fe... Movement logic moved to another file.
+
+    void Awake()
+    {
+        movementScript = GetComponent<MovementScript>();
+        movementScript.StartPosition(0);
+
+        healthScript = GetComponent<HealthScript>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-<<<<<<< HEAD
-        Player.transform.position = TargetPoints.transform.GetChild(0).position;
-        
-=======
 
-
-        // move to strat point
-        Player.transform.position = TargetPoints.transform.GetChild(0).position;
-        CurrentI = 2;
-        CurrentJ = -1;
-
-        // set multidimensional array of points
-        int k = 1;
-        for (int i = 0; i < 5; i++)
-        {
-            for (int j = 0; j < 9; j++)
-            {
-                arrayOfPoints[i, j] = TargetPoints.transform.GetChild(k).gameObject;
-                k++;
-            }
-        }
-
-
-
->>>>>>> parent of 39223fe... Movement logic moved to another file.
     }
 
-    // Update is called once per frame
+
+    //Update is called once per frame
     void Update()
     {
-<<<<<<< HEAD
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+
+        transform.position = Vector3.MoveTowards(transform.position, movementScript.Movement(0), Time.deltaTime * speed);
+
+        if(healthScript.health == 0)
         {
-            Player.transform.Translate(Arr[1].transform.position * 0.01f * Time.deltaTime);
+            this.gameObject.SetActive(false);
         }
-
-    }
-=======
-
-        transform.position = Vector3.MoveTowards(transform.position, Movement(), Time.deltaTime * 5 );
-
     }
 
-    Vector3 Movement()
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (other.gameObject.tag == "Enemy")
         {
-            if (CurrentI > 0)
-            {
-                CurrentI--;
-            }
+            movementScript.StartPosition(0);
+            healthScript.health--;
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (other.gameObject.tag == "AidKit")
         {
-            if (CurrentI < 4)
-            {
-                CurrentI++;
-            }
+            other.gameObject.transform.position = new Vector3(-11.5f, -4, -2);
+            healthScript.health++;
         }
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            if (CurrentJ > 0)
-            {
-                CurrentJ--;
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            if (CurrentJ < 8)
-            {
-                CurrentJ++;
-            }
-        }
-
-        return arrayOfPoints[CurrentI, CurrentJ].transform.position;
-
-
 
     }
->>>>>>> parent of 39223fe... Movement logic moved to another file.
+
+
+
 }
