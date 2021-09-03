@@ -4894,6 +4894,7 @@ GameObject:
   - component: {fileID: 1770616455}
   - component: {fileID: 1770616454}
   - component: {fileID: 1770616458}
+  - component: {fileID: 1770616459}
   m_Layer: 0
   m_Name: First_aid_kit
   m_TagString: AidKit
@@ -5027,7 +5028,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SecondsOfLife: 5
   WaitFrom: 20
-  WaitTill: 40
+  WaitTill: 60
+--- !u!114 &1770616459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770616453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebe2a487422bc234e815d46909a89257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetPoints: {fileID: 618084136}
+  spriteU: {fileID: 0}
+  spriteD: {fileID: 0}
+  spriteL: {fileID: 0}
+  spriteR: {fileID: 0}
 --- !u!1 &1776925989
 GameObject:
   m_ObjectHideFlags: 0

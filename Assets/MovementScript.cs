@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -64,51 +65,59 @@ public class MovementScript : MonoBehaviour
 
     public Vector3 Movement(int direction)
     {
-        // if touchscreen
-        foreach (Touch touch in Input.touches)
+        try
         {
-            if (touch.phase == TouchPhase.Began)
+
+            // if touchscreen
+            foreach (Touch touch in Input.touches)
             {
-                fingerUp = touch.position;
-                fingerDown = touch.position;
+                if (touch.phase == TouchPhase.Began)
+                {
+                    fingerUp = touch.position;
+                    fingerDown = touch.position;
+                }
+
+                //Detects swipe after finger is released
+                if (touch.phase == TouchPhase.Ended)
+                {
+                    fingerDown = touch.position;
+                    direction = checkSwipe();
+                }
             }
 
-            //Detects swipe after finger is released
-            if (touch.phase == TouchPhase.Ended)
+
+            // if keyboard
+            if ((Input.GetKeyDown(KeyCode.UpArrow) || direction == 1) && CurrentI > 0)
             {
-                fingerDown = touch.position;
-                direction = checkSwipe();
+                CurrentI--;
+                GetComponent<SpriteRenderer>().sprite = spriteU;
             }
+
+            if ((Input.GetKeyDown(KeyCode.DownArrow) || direction == 2) && CurrentI < 4)
+            {
+                CurrentI++;
+                GetComponent<SpriteRenderer>().sprite = spriteD;
+            }
+
+            if ((Input.GetKeyDown(KeyCode.LeftArrow) || direction == 3) && CurrentJ > 0)
+            {
+                CurrentJ--;
+                GetComponent<SpriteRenderer>().sprite = spriteL;
+            }
+
+            if ((Input.GetKeyDown(KeyCode.RightArrow) || direction == 4) && CurrentJ < 8)
+            {
+                CurrentJ++;
+                GetComponent<SpriteRenderer>().sprite = spriteR;
+            }
+
+
+            return arrayOfPoints[CurrentI, CurrentJ].transform.position;
         }
-
-
-        // if keyboard
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || direction == 1) && CurrentI > 0)
+        catch (IndexOutOfRangeException ex)
         {
-            CurrentI--;
-            GetComponent<SpriteRenderer>().sprite = spriteU;
+            return TargetPoints.transform.GetChild(0).position; ;
         }
-
-        if ((Input.GetKeyDown(KeyCode.DownArrow) || direction == 2) && CurrentI < 4)
-        {
-            CurrentI++;
-            GetComponent<SpriteRenderer>().sprite = spriteD;
-        }
-
-        if ((Input.GetKeyDown(KeyCode.LeftArrow) || direction == 3) && CurrentJ > 0)
-        {
-            CurrentJ--;
-            GetComponent<SpriteRenderer>().sprite = spriteL;
-        }
-
-        if ((Input.GetKeyDown(KeyCode.RightArrow) || direction == 4) && CurrentJ < 8)
-        {
-            CurrentJ++;
-            GetComponent<SpriteRenderer>().sprite = spriteR;
-        }
-
-
-        return arrayOfPoints[CurrentI, CurrentJ].transform.position;
 
     }
 

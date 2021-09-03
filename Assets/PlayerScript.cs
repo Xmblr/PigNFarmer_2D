@@ -52,7 +52,7 @@ public class PlayerScript : MonoBehaviour
 
         if (other.gameObject.tag == "AidKit")
         {
-            other.gameObject.transform.position = new Vector3(-11.5f, -4, -2);
+            other.gameObject.transform.position = new Vector3(14.24f, -3.65f, -2);
             healthScript.health++;
         }
 

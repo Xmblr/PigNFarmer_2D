@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AidKitScript : MonoBehaviour
 {
+    private MovementScript movementScript;
     public float SecondsOfLife;
     public float WaitFrom;
     public float WaitTill;
@@ -14,7 +15,7 @@ public class AidKitScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        movementScript = GetComponent<MovementScript>();
     }
 
     // Update is called once per frame
@@ -37,14 +38,14 @@ public class AidKitScript : MonoBehaviour
     private IEnumerator MoveToPoint()
     {
 
-        transform.position = new Vector3(-11.5f, -4, -2);
+        transform.position = new Vector3(14.24f, -3.65f, -2);
         yield return new WaitForSeconds(Random.Range(WaitFrom, WaitTill));
 
+        movementScript.StartPosition(Random.Range(1, 45));
+        //float x = Random.Range(-9.5f, 7);
+        //float y = Random.Range(-4.5f, 3 / 3f);
 
-        float x = Random.Range(-9.5f, 7);
-        float y = Random.Range(-4.5f, 3 / 3f);
-
-        transform.position = new Vector3(x, y, -2);
+        //transform.position = new Vector3(x, y, -2);
 
 
         yield return new WaitForSeconds(SecondsOfLife);
