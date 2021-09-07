@@ -114,7 +114,7 @@ public class MovementScript : MonoBehaviour
 
             return arrayOfPoints[CurrentI, CurrentJ].transform.position;
         }
-        catch (IndexOutOfRangeException ex)
+        catch (IndexOutOfRangeException exception)
         {
             return TargetPoints.transform.GetChild(0).position; ;
         }

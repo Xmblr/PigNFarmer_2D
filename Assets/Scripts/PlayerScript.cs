@@ -7,7 +7,6 @@ public class PlayerScript : MonoBehaviour
 {
     private MovementScript movementScript;
     private HealthScript healthScript;
-    public Image HearthImage;
 
     public int speed;
 
